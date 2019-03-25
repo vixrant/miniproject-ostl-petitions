@@ -1,4 +1,4 @@
-# Petitions Board
+# 📜 Petitions Board
 ###  Semester 4 - OSTL Mini Project
 
 ##### DEVELOPERS

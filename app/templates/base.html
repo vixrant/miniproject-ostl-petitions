@@ -6,19 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Petitions.org</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/bootstrap-lumen.min.css' %}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/custom.css' %}">
 </head>
 
 <body>
+    {% include 'navbar.html' %}
+
     {% block body %}
         Hello World
     {% endblock %}
-
-    <div class="card">
-        <div class="card-title">
-            Hello
-        </div>
-    </div>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
