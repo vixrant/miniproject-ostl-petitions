@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
+from django.contrib.auth.views import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from  .models import Petition
@@ -12,9 +13,17 @@ def index(request):
     })
 
 
+# AUTH
+
+@login_required
+def logout(request):
+    auth_logout(request)
+    return redirect('index')
+
+
 class LoginPage(View):
     def get(self, request):
-        if request.user:
+        if request.user.is_authenticated:
             return redirect('index')
         else:
             return render(request, 'login.html', {
@@ -24,7 +33,7 @@ class LoginPage(View):
     def post(self, request):
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            login(request, form.get_user())
+            auth_login(request, form.get_user())
             return redirect('index')
         else:
             messages.error(request, 'Invalid log-in form!')
@@ -35,9 +44,12 @@ class LoginPage(View):
 
 class SignupPage(View):
     def get(self, request):
-        return render(request, 'signup.html', {
-            "form": UserCreationForm,
-        })
+        if request.user.is_authenticated:
+            return redirect('index')
+        else: 
+            return render(request, 'signup.html', {
+                "form": UserCreationForm,
+            })
 
     def post(self, request):
         form = UserCreationForm(request.POST)
@@ -49,5 +61,3 @@ class SignupPage(View):
             return render(request, 'signup.html', {
                 "form": UserCreationForm,
             })
-
-
