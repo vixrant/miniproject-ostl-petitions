@@ -26,7 +26,7 @@
 }
 
 #petition-detail > #petition-image {
-    margin: -4rem 0rem;
+    margin: -9px 0rem -4rem 0;
     height: auto;
     max-height: 40vh;
     object-fit: cover;
