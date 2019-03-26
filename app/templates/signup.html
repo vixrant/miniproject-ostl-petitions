@@ -16,14 +16,4 @@
     </div>
 </div>
 
-{% if messages %}
-    {% for m in messages %}
-        {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-            <div class="alert alert-danger fixed-bottom mx-auto signup-error-alert" role="alert">
-                {{ m }}
-            </div>
-        {% endif %}
-    {% endfor %}
-{% endif %}
-
 {% endblock %}

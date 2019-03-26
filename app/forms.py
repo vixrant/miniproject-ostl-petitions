@@ -9,4 +9,4 @@ class PetitionForm(forms.ModelForm):
 class SignatureForm(forms.ModelForm):
     class Meta:
         model = models.Signature
-        fields = '__all__'
+        fields = ['message']

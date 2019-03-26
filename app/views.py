@@ -15,12 +15,29 @@ def index(request):
     })
 
 
-def petition_details(request, pk):
-    petition = get_object_or_404(Petition, pk=pk)
-    return render(request, 'petition-details.html', {
-        "petition": petition,
-        "signature_form": SignatureForm,
-    })
+class PetitionPage(View):
+    def get(self, request, pk):
+        petition = get_object_or_404(Petition, pk=pk)
+        return render(request, 'petition-details.html', {
+            "petition": petition,
+            "signature_form": SignatureForm,
+        })
+
+    def post(self, request, pk):
+        petition = get_object_or_404(Petition, pk=pk)
+        form = SignatureForm(data=request.POST)
+        if form.is_valid():
+            signature = form.save(commit=False)
+            signature.petition = petition
+            signature.signer = request.user
+            signature.save()
+        else:
+            messages.error(request, 'Error in signature')
+
+        return render(request, 'petition-details.html', {
+            "petition": petition,
+            "signature_form": SignatureForm,
+        })
 
 
 class NewPetitionPage(FormView):
@@ -85,7 +102,8 @@ class SignupPage(View):
     def post(self, request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            auth_login(request, user)
             return redirect('index')
         else:
             messages.error(request, 'Invalid sign-up form!')
