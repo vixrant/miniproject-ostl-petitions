@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <form class="auth-form" action="/signup" method="POST">
+            <form class="center-form" action="/signup" method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <input class="btn btn-primary ml-auto" type="submit" value="Submit">

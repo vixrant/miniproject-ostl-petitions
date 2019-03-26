@@ -1,16 +1,39 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.views.generic import FormView
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib.auth.views import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from  .models import Petition
+from .forms import PetitionForm
 
 def index(request):
     petition_list = Petition.objects.all()
     return render(request, 'index.html', {
         "petition_list": petition_list
     })
+
+
+class NewPetitionPage(FormView):
+    template_name = 'new_petition.html'
+    form_class = PetitionForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        if not self.request.user.is_authenticated:
+            messages.error(request, 'User not logged in!')
+            return render(request, 'login.html', {
+                "form": AuthenticationForm,
+            })
+        petition = form.save(commit=False)
+        petition.poster = self.request.user
+        petition.save()
+        messages.success(self.request, 'New petition successfully created')
+        return super().form_valid(form)
+
+    def form_invlaid(self, form):
+        pass
 
 
 # AUTH

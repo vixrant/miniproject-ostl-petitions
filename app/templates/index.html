@@ -3,7 +3,7 @@
 <div class="card-columns">
   {% for p in petition_list %}
     <div class="card text-center">
-      <img class="card-img-top" src="{{ p.cover_image.url }}" alt="Card image cap">
+      {% if p.cover_image %} <img class="card-img-top" src="{{ p.cover_image.url }}" alt="Card image cap"> {% endif %}
       <div class="card-body">
         <h5 class="card-title">{{ p.title }}</h5>
         <p class="card-text">

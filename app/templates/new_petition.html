@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %} 
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <form class="center-form" action="/new-petition" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input class="btn btn-primary ml-auto" type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
