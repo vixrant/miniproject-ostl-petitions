@@ -1,11 +1,20 @@
-{% for message in messages %}
-<div
-  class="alert {{ message.tags }} mx-auto alert-dismissible alert-message"
-  role="alert"
->
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-  {{ message }}
+{% if messages %}
+<div class="fixed-bottom" id="messages-box">
+  {% for message in messages %}
+  <div
+    class="alert {{ message.tags }} alert-dismissible alert-message ml-auto fade show"
+    role="alert"
+  >
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+  {% endfor %}
+  <script>
+    setTimeout(() => {
+      $(".alert").alert("close");
+    }, 5000);
+  </script>
 </div>
-{% endfor %}
+{% endif %}

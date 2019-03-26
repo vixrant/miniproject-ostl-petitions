@@ -13,12 +13,14 @@ class Petition(models.Model):
 
 
 class Signature(models.Model):
-    petition = models.ForeignKey(Petition, related_name="signatures", on_delete=models.CASCADE)
+    petition = models.ForeignKey(
+        Petition, related_name="signatures", on_delete=models.CASCADE
+    )
     signer = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=512, blank=True)
 
     class Meta:
-        unique_together = [('petition', 'signer')]
+        unique_together = [("petition", "signer")]
 
     def __str__(self):
         return "{} | {}".format(self.petition.pk, self.signer.username)
