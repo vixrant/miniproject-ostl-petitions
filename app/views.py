@@ -10,16 +10,21 @@ from .forms import PetitionForm, SignatureForm
 
 
 def index(request):
+    if not request.user.is_authenticated:
+        messages.info(request, "You are not logged in!")
     petition_list = Petition.objects.all()
     return render(request, "index.html", {"petition_list": petition_list})
 
 
 class PetitionPage(View):
-
     def render(self, request, petition):
+
         try:
-            user_sign = petition.signatures.get(signer=request.user)
-            user_has_signed: bool = True
+            if request.user.is_authenticated:
+                user_sign = petition.signatures.get(signer=request.user)
+                user_has_signed: bool = True
+            else:
+                user_has_signed: bool = False
         except Signature.DoesNotExist:
             user_has_signed: bool = False
 
@@ -27,7 +32,7 @@ class PetitionPage(View):
             request,
             "petition-details.html",
             {
-                "petition": petition, 
+                "petition": petition,
                 "signature_form": SignatureForm,
                 "user_has_signed": user_has_signed,
             },
@@ -39,8 +44,8 @@ class PetitionPage(View):
 
     def post(self, request, pk):
         if not request.user.is_authenticated:
-            messages.warning(request, 'How the fuck did you sign without logging in?')
-            return redirect('login')
+            messages.warning(request, "How the fuck did you sign without logging in?")
+            return redirect("login")
 
         petition = get_object_or_404(Petition, pk=pk)
         form = SignatureForm(data=request.POST)
@@ -49,6 +54,7 @@ class PetitionPage(View):
             signature.petition = petition
             signature.signer = request.user
             signature.save()
+            messages.success(request, "You have signed the petition!")
         else:
             messages.error(request, "Error in signature")
 
@@ -114,5 +120,7 @@ class SignupPage(View):
             auth_login(request, user)
             return redirect("index")
         else:
+            messages.error(request, "Invalid sign-up form!")
+            messages.error(request, "Invalid sign-up form!")
             messages.error(request, "Invalid sign-up form!")
             return render(request, "signup.html", {"form": UserCreationForm})
