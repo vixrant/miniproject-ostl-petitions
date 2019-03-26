@@ -16,3 +16,12 @@
     border: none;
     outline: none;
 }
+
+#id_cover_image {
+    background: none;
+    border: 1px solid black;
+}
+
+.card-title a {
+    color: black;
+}
