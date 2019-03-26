@@ -2,13 +2,18 @@
 
 <div class="card-columns">
   {% for p in petition_list %}
-    <div class="petition-card card text-center bounceIn">
+    <div class="petition-card card bounceIn">
       {% if p.cover_image %} <img class="card-img-top" src="{{ p.cover_image.url }}" alt="Card image cap"> {% endif %}
       <div class="card-body">
-        <h2 class="card-title"><a href="{% url 'petition_detail' pk=p.pk %}">{{ p.title }}</a></h2>
+        <h2 class="card-title text-center"><a href="{% url 'petition_detail' pk=p.pk %}">{{ p.title }}</a></h2>
         <p class="card-text">
           {{ p.description|truncatechars:256 }}
         </p>
+        <a href="{% url 'petition_detail' pk=p.pk %}">
+          <button class="btn btn-outline-info">
+              Info
+          </button>
+        </a>
         <p class="card-text text-right">
           <small class="text-muted">{{ p.poster }}</small>
         </p>

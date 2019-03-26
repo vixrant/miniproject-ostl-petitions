@@ -21,10 +21,12 @@
     background: none;
     display: flex;
     flex-direction: column;
+    padding: 0;
+    padding-bottom: 1rem;
 }
 
 #petition-detail > #petition-image {
-    margin: -4rem -2rem;
+    margin: -4rem 0rem;
     height: auto;
     max-height: 40vh;
     object-fit: cover;
@@ -33,9 +35,15 @@
 #petition-detail > #petition-title {
     padding: 1rem 2rem;
     width: fit-content;
+    max-width: 100%;
+    height: auto;
     border-bottom: 4px #BDC3C7 solid;
     border-bottom-left-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
+}
+
+#petition-detail > #petition-description {
+    padding: 0.5rem;
 }
 
 .navbar.bg-primary {
