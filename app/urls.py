@@ -20,6 +20,7 @@ from . import views
 urlpatterns = [
     path("", views.index, name='index'),
     path("new-petition", views.NewPetitionPage.as_view(), name='new_petition'),
+    path("p/<int:pk>", views.petition_details, name='petition_detail'),
     path("logout", views.logout, name='logout'),
     path("login", views.LoginPage.as_view(), name='login'),
     path("signup", views.SignupPage.as_view(), name='signup'),

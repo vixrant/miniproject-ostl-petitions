@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import FormView
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
@@ -6,12 +6,20 @@ from django.contrib.auth.views import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from  .models import Petition
-from .forms import PetitionForm
+from .forms import PetitionForm, SignatureForm
 
 def index(request):
     petition_list = Petition.objects.all()
     return render(request, 'index.html', {
         "petition_list": petition_list
+    })
+
+
+def petition_details(request, pk):
+    petition = get_object_or_404(Petition, pk=pk)
+    return render(request, 'petition-details.html', {
+        "petition": petition,
+        "signature_form": SignatureForm,
     })
 
 

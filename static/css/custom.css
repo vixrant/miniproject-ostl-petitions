@@ -17,9 +17,30 @@
     outline: none;
 }
 
-#id_cover_image {
+#petition-detail {
     background: none;
-    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+#petition-detail > #petition-image {
+    margin: -4rem -2rem;
+    height: auto;
+    max-height: 40vh;
+    object-fit: cover;
+}
+
+#petition-detail > #petition-title {
+    padding: 1rem 2rem;
+    width: fit-content;
+    border-bottom: 4px #BDC3C7 solid;
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
+}
+
+.navbar.bg-primary {
+    background-color: #36D7B7 !important;
+    border-color: #16A085 !important;
 }
 
 .card-title a {

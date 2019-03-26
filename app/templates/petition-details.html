@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block body %}
+
+<div class="jumbotron" id="petition-detail">
+    <img src="{{ petition.cover_image.url }}" id="petition-image">
+    <h1 class="display-4 card text-center mx-auto" id="petition-title"><b>{{ petition.title }}</b></h1>
+    <p class="mx-auto">Posted by {{ petition.poster }}</p>
+    <p class="lead">{{ petition.description }}</p>
+
+    <a class="btn btn-outline-success btn-lg mx-auto" href="#" role="button">Sign Now</a>
+</div>
+
+{% endblock %}
