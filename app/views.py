@@ -5,7 +5,7 @@ from django.contrib.auth import login as auth_login, logout as auth_logout, auth
 from django.contrib.auth.views import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
-from .models import Petition
+from .models import Petition, Signature
 from .forms import PetitionForm, SignatureForm
 
 
@@ -15,15 +15,33 @@ def index(request):
 
 
 class PetitionPage(View):
-    def get(self, request, pk):
-        petition = get_object_or_404(Petition, pk=pk)
+
+    def render(self, request, petition):
+        try:
+            user_sign = petition.signatures.get(signer=request.user)
+            user_has_signed: bool = True
+        except Signature.DoesNotExist:
+            user_has_signed: bool = False
+
         return render(
             request,
             "petition-details.html",
-            {"petition": petition, "signature_form": SignatureForm},
+            {
+                "petition": petition, 
+                "signature_form": SignatureForm,
+                "user_has_signed": user_has_signed,
+            },
         )
 
+    def get(self, request, pk):
+        petition = get_object_or_404(Petition, pk=pk)
+        return self.render(request, petition)
+
     def post(self, request, pk):
+        if not request.user.is_authenticated:
+            messages.warning(request, 'How the fuck did you sign without logging in?')
+            return redirect('login')
+
         petition = get_object_or_404(Petition, pk=pk)
         form = SignatureForm(data=request.POST)
         if form.is_valid():
@@ -34,11 +52,7 @@ class PetitionPage(View):
         else:
             messages.error(request, "Error in signature")
 
-        return render(
-            request,
-            "petition-details.html",
-            {"petition": petition, "signature_form": SignatureForm},
-        )
+        return self.render(request, petition)
 
 
 class NewPetitionPage(FormView):
