@@ -28,6 +28,8 @@ class PetitionPage(View):
         except Signature.DoesNotExist:
             user_has_signed: bool = False
 
+        signs = list(petition.signatures.all())
+
         return render(
             request,
             "petition-details.html",
@@ -35,6 +37,7 @@ class PetitionPage(View):
                 "petition": petition,
                 "signature_form": SignatureForm,
                 "user_has_signed": user_has_signed,
+                "signs": signs,
             },
         )
 
